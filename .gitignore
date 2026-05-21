@@ -3,6 +3,7 @@
 build/
 target/
 *.log
+.env
 .DS_Store
 .idea/
 out/

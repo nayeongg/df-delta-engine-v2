@@ -1,0 +1,43 @@
+services:
+  delta-postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-delta_db}
+      POSTGRES_USER: ${POSTGRES_USER:-delta_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-delta_pass}
+      TZ: ${TZ:-Asia/Seoul}
+    volumes:
+      - ${POSTGRES_DATA_DIR:-./postgres-data}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-delta_user} -d ${POSTGRES_DB:-delta_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - delta-internal
+
+  df-delta-engine-v2:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      delta-postgres:
+        condition: service_healthy
+    environment:
+      TZ: ${TZ:-Asia/Seoul}
+      SERVER_PORT: 8082
+      DELTA_PG_URL: jdbc:postgresql://delta-postgres:5432/${POSTGRES_DB:-delta_db}
+      DELTA_PG_USER: ${POSTGRES_USER:-delta_user}
+      DELTA_PG_PASSWORD: ${POSTGRES_PASSWORD:-delta_pass}
+      DF_DELTA_JPA_DDL_AUTO: ${DF_DELTA_JPA_DDL_AUTO:-validate}
+    ports:
+      - "${DELTA_HTTP_BIND:-127.0.0.1}:${DELTA_HTTP_PORT:-18089}:8082"
+    networks:
+      - delta-internal
+      - nifi-shared
+
+networks:
+  delta-internal:
+  nifi-shared:
+    external: true
+    name: ${DELTA_DOCKER_NETWORK}
