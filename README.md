@@ -93,6 +93,33 @@ nifi-idp_nifi-net
 - `delta_record_incoming`
 - `delta_record_store`
 
+그리고 `/runs` 요청 metadata 확장 버전을 쓰려면, PostgreSQL에서 아래 SQL을 직접 한 번 실행하면 된다.
+
+```sql
+ALTER TABLE delta_runs
+    ADD COLUMN IF NOT EXISTS job_id varchar(100);
+
+ALTER TABLE delta_runs
+    ADD COLUMN IF NOT EXISTS dataset_code varchar(50);
+
+ALTER TABLE delta_runs
+    ADD COLUMN IF NOT EXISTS request_type varchar(30);
+
+ALTER TABLE delta_runs
+    ADD COLUMN IF NOT EXISTS trigger_type varchar(30);
+
+ALTER TABLE delta_runs
+    ADD COLUMN IF NOT EXISTS requested_at varchar(50);
+```
+
+이 SQL은 `delta_runs`에 아래 컬럼을 추가한다.
+
+- `job_id`
+- `dataset_code`
+- `request_type`
+- `trigger_type`
+- `requested_at`
+
 ### 3. 실행
 
 ```bash

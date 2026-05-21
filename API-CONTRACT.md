@@ -29,9 +29,19 @@ Request:
 
 ```json
 {
-  "spCode": "KNU10"
+  "spCode": "KNU10",
+  "jobId": "job-20260521-0001",
+  "datasetCode": "STDNT_BASIC",
+  "requestType": "student-targeted",
+  "triggerType": "cron",
+  "requestedAt": "2026-05-21T01:00:00+09:00"
 }
 ```
+
+Notes:
+- `spCode` is required.
+- `jobId`, `datasetCode`, `requestType`, `triggerType`, and `requestedAt` are optional metadata fields.
+- The API remains backward compatible with the earlier `{"spCode":"KNU10"}` request body.
 
 Response:
 
@@ -39,6 +49,11 @@ Response:
 {
   "runId": "1b51d54d-0ebf-406a-8fa0-0f4f72a87fe9",
   "spCode": "KNU10",
+  "jobId": "job-20260521-0001",
+  "datasetCode": "STDNT_BASIC",
+  "requestType": "student-targeted",
+  "triggerType": "cron",
+  "requestedAt": "2026-05-21T01:00:00+09:00",
   "status": "CREATED",
   "createdAt": "2026-05-19T11:00:00"
 }

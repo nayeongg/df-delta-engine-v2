@@ -20,6 +20,6 @@ public class RunController {
 
     @PostMapping
     public ResponseEntity<DeltaRun> createRun(@Valid @RequestBody CreateRunRequest request) {
-        return ResponseEntity.ok(runService.createRun(request.getSpCode()));
+        return ResponseEntity.ok(runService.createRun(request));
     }
 }

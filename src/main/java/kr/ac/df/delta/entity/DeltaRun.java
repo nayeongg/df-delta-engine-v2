@@ -25,6 +25,21 @@ public class DeltaRun {
     @Column(name = "sp_code", length = 20, nullable = false)
     private String spCode;
 
+    @Column(name = "job_id", length = 100)
+    private String jobId;
+
+    @Column(name = "dataset_code", length = 50)
+    private String datasetCode;
+
+    @Column(name = "request_type", length = 30)
+    private String requestType;
+
+    @Column(name = "trigger_type", length = 30)
+    private String triggerType;
+
+    @Column(name = "requested_at", length = 50)
+    private String requestedAt;
+
     @Column(name = "status", length = 20, nullable = false)
     private String status;
 
