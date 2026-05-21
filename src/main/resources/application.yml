@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: df-delta-engine-v2
+  datasource:
+    url: ${DF_DELTA_DB_URL:${DELTA_PG_URL:jdbc:postgresql://localhost:5432/df_delta}}
+    username: ${DF_DELTA_DB_USERNAME:${DELTA_PG_USER:df_delta_user}}
+    password: ${DF_DELTA_DB_PASSWORD:${DELTA_PG_PASSWORD:df_delta_password}}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${DF_DELTA_JPA_DDL_AUTO:validate}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: ${SERVER_PORT:8082}
+  servlet:
+    context-path: /api/v1/df/delta
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
